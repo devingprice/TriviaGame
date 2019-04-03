@@ -8,8 +8,8 @@
     --tr-X: calc(var(--btn-w) - var(--dot-w));
     
 
-    --cont-w: 420px;
-    --cont-h: 720px;
+    --cont-w: 400px;
+    --cont-h: 700px;
     --end-w: 12px;
     --bomb-end-l: 80px;
 

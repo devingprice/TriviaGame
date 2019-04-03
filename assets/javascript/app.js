@@ -421,10 +421,6 @@ function playAgain() {
 }
 
 
-
-$('#temp').append($(window).width())
-$('#temp').append($(window).height())
-
 function lightFire(){
     var rope = document.getElementById('rope-border');
     var ropeEnd = document.getElementById('rope-end');
