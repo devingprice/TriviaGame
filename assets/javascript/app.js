@@ -28,13 +28,13 @@ var qAKey = [
     {
         question: 'is true === true',
         answerList: ['t', 'f'],
-        answer: 't',
+        answer: 0,
         explaination: 'duh'
     },
     {
         question: 'is true === false',
         answerList: ['t', 'f'],
-        answer: 'f',
+        answer: 1,
         explaination: 'duh'
     }
 ]
@@ -142,7 +142,12 @@ $('.answer').on('click', function () {
         transitionQuestion();
     }
 })
-function checkIfCorrect() { }
+function checkIfCorrect(qAItem) {
+    if(qAItem.chosen === qAItem.answer){
+        return true;
+    } 
+    return false;
+ }
 function transitionQuestion() {
     console.log('trans')
     if ((currRound + 1) === numRounds) {
@@ -164,6 +169,8 @@ function loseAnim() {
 }
 function displayResultsKey() {
     // div class results + win class or lose class
+    $('.answer').hide()
+    $('.question').hide()
     randomSorted.filter(function(qAItem){
         return qAItem.chosen !== undefined;
     }).map(function(qAItem){
@@ -171,7 +178,33 @@ function displayResultsKey() {
             .append( $('<p>').text(qAItem.question ) )
             .append( $('<p>').text(qAItem.answerList[qAItem.chosen] ) )
             .append( $('<p>').text(qAItem.explaination ) )
+        
+        if( checkIfCorrect(qAItem) ){
+            $('#results').append( $('<p>').text("correct" ) )
+        } else {
+            $('#results').append( $('<p>').text("incorrect" ) )
+        }
         })
+    $('#results').append( 
+        $('<button>').text("Play Again" )
+        .on('click',function(){
+            playAgain()
+        })
+    )
     console.log(randomSorted)
-} //question answer right or wrong explaination
-function playAgain() { }
+} 
+function playAgain() { 
+    $('.answer').show().empty();
+    $('.question').show().empty();
+    $('#timer').fadeOut(0).text("00:05").fadeIn();
+    $('#results').empty();
+    
+    $('#press').fadeIn();
+
+    started = false;
+    randomSorted = randomSort(qAKey);
+    winLose = null;
+    bombTimer = null;
+    displayTimer = null;
+    currRound = 0;
+}
