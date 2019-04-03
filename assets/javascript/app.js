@@ -208,3 +208,7 @@ function playAgain() {
     displayTimer = null;
     currRound = 0;
 }
+
+
+
+$('#temp').append( $(window).width() )
