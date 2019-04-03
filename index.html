@@ -5,17 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pirate Trivia</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header id="temp"></header>
-    <main>
-        <div id="timer">00:05</div>
-        <section id="press">Click the screen to start</section>
-        <section class="question"></section>
-        <section class="answer-container"></section>
-        <section id="results"></section>
-    </main>
+    <div id="rope-border">
+        <main>
+
+            <article class="content">
+                <div id="timer">00:05</div>
+                <section id="press">Click the screen to start</section>
+                <section class="question"></section>
+                <section class="answer-container"></section>
+                <section id="results"></section>
+            </article>
+            
+
+            <div id="rope-end">
+                <div id="fire">
+                    <div id="fire-inside"></div>
+                    <div id="fire-outside"></div>
+                </div>
+            </div>
+            <div id="bomb"></div>
+        </main>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="assets/javascript/app.js"></script>

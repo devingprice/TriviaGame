@@ -1,0 +1,299 @@
+:root {
+	--bg: #3C465C;
+	--primary: #78FFCD;
+	--solid: #fff;
+	--btn-w: 36em;
+	--btn-h: 18em;
+	--dot-w: calc(var(--btn-w)*.2);
+    --tr-X: calc(var(--btn-w) - var(--dot-w));
+    
+
+    --cont-w:420px;
+    
+}
+* {
+    box-sizing: border-box;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+body {
+    background-color: skyblue;
+}
+
+
+/*--------------------------------
+    Main Container
+---------------------------------*/
+#rope-border {
+    width: var(--btn-w);
+    height: var(--btn-h);
+    margin: 2rem auto;
+    position: relative;
+    
+    background-repeat: no-repeat;
+    background-image:   repeating-linear-gradient(45deg, #fff, #fff 10px, #ddd 10px, #ddd 20px),
+                        repeating-linear-gradient(45deg, #fff, #fff 10px, #ddd 10px, #ddd 20px),
+                        repeating-linear-gradient(45deg, #fff, #fff 10px, #ddd 10px, #ddd 20px),
+                        repeating-linear-gradient(45deg, #fff, #fff 10px, #ddd 10px, #ddd 20px);
+    background-size:    86% 12px,
+                        12px 100%,
+                        100% 12px,
+                        12px 50%;
+    background-position:    70px 0,
+                            100% 0,
+                            100% 100%,
+                            0 100%;
+}
+@keyframes bg {
+    100% {
+        background-size:    0 12px,
+                            12px 0,
+                            0 12px,
+                            12px 0;
+    }
+    80% {
+        background-size:    86% 12px,
+                            12px 0,
+                            0 12px,
+                            12px 0;
+    }
+    50% {
+        background-size:    86% 12px,
+                            12px 100%,
+                            0 12px,
+                            12px 0;
+    }
+    30% {
+        background-size:    86% 12px,
+                            12px 100%,
+                            100% 12px,
+                            12px 0;
+    }
+    0% {
+        background-size:    86% 12px,
+                            12px 100%,
+                            100% 12px,
+                            12px 50%;
+    }
+}
+/*
+@keyframes bg {
+    100% {
+        background-size:    0 12px,
+                            12px 0,
+                            0 12px,
+                            12px 0;
+    }
+    80% {
+        background-size:    100% 12px,
+                            12px 0,
+                            0 12px,
+                            12px 0;
+    }
+    50% {
+        background-size:    100% 12px,
+                            12px 100%,
+                            0 12px,
+                            12px 0;
+    }
+    30% {
+        background-size:    100% 12px,
+                            12px 100%,
+                            100% 12px,
+                            12px 0;
+    }
+    0% {
+        background-size:    100% 12px,
+                            12px 100%,
+                            100% 12px,
+                            12px 50%;
+    }
+}
+*/
+.progress-rope {
+	animation: bg 20s linear;/*cubic-bezier(0.19, 1, 0.22, 1) 1;*/
+	animation-play-state: running;
+}
+
+
+/*--------------------------------
+    Move around rope
+---------------------------------*/
+#rope-end{
+    content: '';
+	position: absolute;
+	top: 0;
+	width: var(--dot-w);
+	height: 100%;
+	border-radius: 100%;
+	transition: all 300ms ease;
+	display: none;
+}
+#rope-end::after {
+	content: '';
+	position: absolute;
+	left: -.4em;/*calc(50% - .4em);*/
+	top: -.4em;
+	height: .8em;
+	width: .8em;
+	background: red;
+	border-radius: 1em;
+	border: .25em solid red;
+	box-shadow: 0 0 .7em red,
+				0 0 2em red;
+}
+
+#fire {
+    position: relative;
+}
+.lit{
+	animation: ignite 20s  linear;
+	display: block!important;
+}
+@keyframes ignite {
+	0% {transform: translateX(0) translateY(50px);}
+	30% {transform: translateX(0) translateY(var(--btn-h));}
+	50% {transform: translateX(var(--btn-w)) translateY(var(--btn-h)) ;}
+	80% {transform: translateX(var(--btn-w)) ;}
+	98% { transform: translateX(50px) ;}
+	100% {transform: translateX(0px) ;}
+}
+#fire-outside{
+    position: absolute;
+    left: -.7em;
+    top: -.8em;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid #FF7722;
+    animation: scale 1s infinite;
+}
+#fire-outside:before {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid red;
+    position: absolute;
+    content: "";
+    top: 10px;
+    left: -15px;
+}
+
+#fire-inside{
+    position: absolute;
+    left: -1.2em;
+    top: -1.6em;
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 45px solid orangered;
+    transform-origin: 25px 32px;
+    animation: wiggle 1s infinite;
+}
+#fire-inside:before {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 45px solid #E3170D;
+    position: absolute;
+    content: "";
+    top: 18px;
+    left: -25px;
+}
+@keyframes wiggle {
+    0% {
+      -webkit-transform: rotate(-30deg);
+      transform: rotate(-30deg);
+    }
+    50% {
+      -webkit-transform: rotate(30deg);
+      transform: rotate(30deg);
+    }
+    100% {
+      -webkit-transform: rotate(-30deg);
+      transform: rotate(-30deg);
+    }
+}
+  
+@keyframes scale {
+    0% {
+      -webkit-transform: scale(1.4);
+      transform: scale(1.4);
+    }
+    50% {
+      -webkit-transform: scale(0.8);
+      transform: scale(0.8);
+    }
+    100% {
+      -webkit-transform: scale(1.4);
+      transform: scale(1.4);
+    }
+}
+
+
+/*--------------------------------
+    Bomb
+---------------------------------*/
+#bomb {
+    position:absolute;
+    top:-20px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: #1d1d1d;
+    border-radius: 50%;
+    transform: rotate(60deg);
+}
+#bomb::before {
+    position: absolute;
+    content: '';
+    margin-top: -10px;
+    margin-left: 30px;
+    width: 40px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1d1d1d;
+}
+
+#bomb::after {
+    position: absolute;
+    content: '';
+    margin-top: -5px;
+    margin-left: 30px;
+    width: 40px;
+    height: 10px;
+    background: #1d1d1d;
+}
+
+/*--------------------------------
+    Content
+---------------------------------*/
+.content {
+    padding:40px;
+    padding-top:100px;
+    position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
