@@ -236,6 +236,22 @@ var incorrectCount = 0;
 
 $('#results').hide();
 setCSS();
+setTimerText( timeGivenMS / 1000 );
+
+function setTimerText(durationSec){
+    var minutes = parseInt(durationSec / 60, 10);
+    var seconds = parseInt(durationSec % 60, 10);
+
+    if (--durationSec <= 0) {
+        $('#timer').text("00:00");
+        clearInterval(displayTimer)
+    } else {
+        minutes = addZeroIfSingleDigit(minutes);
+        seconds = addZeroIfSingleDigit(seconds);
+
+        $('#timer').text(minutes + ":" + seconds);
+    }
+}
 
 function setCSS(){
     var root = document.documentElement;
