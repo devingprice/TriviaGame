@@ -231,6 +231,8 @@ var bombTimer = null;
 var displayTimer = null;
 var currRound = 0;
 
+var correctCount = 0;
+var incorrectCount = 0;
 
 $('#results').hide();
 setCSS();
@@ -320,9 +322,8 @@ function fixGridClasses(displayType){
 }
 function displayRound() {
     console.log('display round', currRound)
-    $('.question').html(
-        $('<div>').text(randomSorted[currRound].question)
-    )
+    $('.question').html(randomSorted[currRound].question)
+    
     $('.answer-container').empty();
     fixGridClasses(randomSorted[currRound].displayType);
     for (var i = 0; i < randomSorted[currRound].answerList.length; i++) {
@@ -345,7 +346,7 @@ $('.answer').on('click', function () {
     }
 })
 function checkIfCorrect(qAItem) {
-    if (qAItem.chosen === qAItem.answer) {
+    if (parseInt(qAItem.chosen) === qAItem.answer) {
         return true;
     }
     return false;
@@ -392,8 +393,10 @@ function displayResultsKey() {
         var correct;
         if (checkIfCorrect(qAItem)) {
             correct = 'correct'
+            correctCount++;
         } else {
             correct = 'incorrect'
+            incorrectCount++;
         }
         var listItem = $('<li>',{class:'results-list-item '+ correct })
             .append($('<p>').html(qAItem.question))
@@ -409,6 +412,15 @@ function displayResultsKey() {
                 playAgain()
             })
     )
+    if( winLose === "win"){
+        $('#results').prepend($('<h1>').text("WINNER"))
+        $('#results').prepend($('<h3>').text("# Correct: "+ correctCount))
+        $('#results').prepend($('<h3>').text("# Incorrect: "+ incorrectCount))
+    } else if (winLose === 'false'){
+        $('#results').prepend($('<h1>').text("LOSER"))
+        $('#results').prepend($('<h3>').text("# Correct: "+ correctCount))
+        $('#results').prepend($('<h3>').text("# Incorrect: "+ incorrectCount))
+    }
     console.log(randomSorted)
 }
 function playAgain() {
