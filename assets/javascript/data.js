@@ -79,7 +79,7 @@ var qAKey = [
         explaination: '<p>Stede Bonnet actually purchased his&nbsp;own ship and hired a crew. This&nbsp;was different from&nbsp;most&nbsp;pirate&nbsp;ships where the crew signed an agreement (Articles) that entitled them to a share&nbsp;of&nbsp;any plunder. The&nbsp;pirate&nbsp;crews also generally elected their own captains. For a short time Stede Bonnet was in a partnership with&nbsp;Blackbeard&nbsp;but&nbsp;Blackbeard&nbsp;basically kept Bonnet a prisoner and made what use he liked&nbsp;of&nbsp;' + "Bonnet's ship, the 'Revenge'.</p>"
     },
     {
-        question: 'Which pirate made so much money that he was able to retire, only to miss the pirate life, return to the sea and to be killed while trying to capture a prize in the Red Sea?',
+        question: 'Which pirate enough money that he was able to retire, only to miss the pirate life and came back only to be killed while trying to capture a prize in the Red Sea?',
         answerList: [
             'Thomas Tew',
             'Henry Avery',
@@ -103,7 +103,7 @@ var qAKey = [
         explaination: "It is reputed that Francis l'Olonnais once cut the heart out of a prisoner and started to chew on it while interrogating other prisoners. It was shortly after this that his crew deserted him - he was too much of a psychopath for their taste (if you'll pardon the expression)."
     },
     {
-        question: 'One of the first English pirates was Lady Aethelflaed; on the death of her husband she took over the captaincy of the English fleet and sallied forth to fight the Vikings in the early tenth century. Her father was even more famous than she was; who was he?',
+        question: 'One of the first English pirates was Lady Aethelflaed. Her father was even more famous than she was. Wwho was he?',
         answerList: [
             'Hengist',
             'Vercingetorix',
@@ -209,7 +209,7 @@ var qAKey = [
         explaination: 'Forcing people to "walk the plank" is largely folklore. Generally, the pira' + "tes' favorite form" + ' of punishment was "keelhauling", which involved tying their victims to the boat with a length of rope, tossing them overboard, and then dragging them underneath the ship!'
     },
     {
-        question: 'John Rackham had not one but TWO female pirates aboard his ship. This was highly unusual, to say the least, as most pirate codes specifically forbade women on board at all. The two women were Mary Read and his lover, Anne Bonny, the former wife of a sailor named James Bonny. John Rackham was often called by another name. What nickname was he better known by?',
+        question: 'John Rackham had not one but TWO female pirates aboard his ship. This was highly unusual. What nickname was he better known by?',
         answerList: [
             'Calico Jack',
             "Devil's Advocate",

@@ -359,6 +359,29 @@ main {
 
 
 
+.results-list-item:hover {
+    background-color: #555;
+}
+
+.results-list-item:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active-list-item:after {
+    content: "\2212";
+}
+
+.collapsable {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
 
 .results-list-item {
     display: flex;

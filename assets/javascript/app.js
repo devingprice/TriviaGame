@@ -13,13 +13,12 @@ var qAKey = [
         answer: 1,
         explaination: 'Piracy existed in the Caribbean for many years, even till the mid 1800s, but after the Golden Era, attacks became less frequent because ships would sail in fleets accompanied by other ships to protect the treasure: in other words, they sailed in convoy.'
     },
-
     {
         question: '<img src="https://blackphoenixalchemylab.com/wp-content/uploads/2012/12/Jolly-Roger.jpg"> <br> This flag is known as:',
         answerList: ['The Black Cross', 'The Flying Dutchman', 'The Jolly Roger', 'The Bones of Death'],
         displayType: 'twoByTwo',
         answer: 2,
-        explaination: 'The Jolly Roger usually consists of a skull and two diagonal bones, but some pirate used more elaborate versions including various red flags and versions of the Jolly Roger with up to three skulls. '
+        explaination: 'The Jolly Roger usually consists of a skull and two diagonal bones, but some pirate used more elaborate versions including various red flags and versions of the Jolly Roger with up to three skulls.', 
     },
     {
         question: "Who was this Scotsman, who as a privateer, loaned the runner and tackle from his ship for hoisting the stones that were used in construction of New York's Trinity Church? ",
@@ -79,7 +78,7 @@ var qAKey = [
         explaination: '<p>Stede Bonnet actually purchased his&nbsp;own ship and hired a crew. This&nbsp;was different from&nbsp;most&nbsp;pirate&nbsp;ships where the crew signed an agreement (Articles) that entitled them to a share&nbsp;of&nbsp;any plunder. The&nbsp;pirate&nbsp;crews also generally elected their own captains. For a short time Stede Bonnet was in a partnership with&nbsp;Blackbeard&nbsp;but&nbsp;Blackbeard&nbsp;basically kept Bonnet a prisoner and made what use he liked&nbsp;of&nbsp;' + "Bonnet's ship, the 'Revenge'.</p>"
     },
     {
-        question: 'Which pirate made so much money that he was able to retire, only to miss the pirate life, return to the sea and to be killed while trying to capture a prize in the Red Sea?',
+        question: 'Which pirate enough money that he was able to retire, only to miss the pirate life and came back only to be killed while trying to capture a prize in the Red Sea?',
         answerList: [
             'Thomas Tew',
             'Henry Avery',
@@ -103,7 +102,7 @@ var qAKey = [
         explaination: "It is reputed that Francis l'Olonnais once cut the heart out of a prisoner and started to chew on it while interrogating other prisoners. It was shortly after this that his crew deserted him - he was too much of a psychopath for their taste (if you'll pardon the expression)."
     },
     {
-        question: 'One of the first English pirates was Lady Aethelflaed; on the death of her husband she took over the captaincy of the English fleet and sallied forth to fight the Vikings in the early tenth century. Her father was even more famous than she was; who was he?',
+        question: 'One of the first English pirates was Lady Aethelflaed. Her father was even more famous than she was. Wwho was he?',
         answerList: [
             'Hengist',
             'Vercingetorix',
@@ -209,7 +208,7 @@ var qAKey = [
         explaination: 'Forcing people to "walk the plank" is largely folklore. Generally, the pira' + "tes' favorite form" + ' of punishment was "keelhauling", which involved tying their victims to the boat with a length of rope, tossing them overboard, and then dragging them underneath the ship!'
     },
     {
-        question: 'John Rackham had not one but TWO female pirates aboard his ship. This was highly unusual, to say the least, as most pirate codes specifically forbade women on board at all. The two women were Mary Read and his lover, Anne Bonny, the former wife of a sailor named James Bonny. John Rackham was often called by another name. What nickname was he better known by?',
+        question: 'John Rackham had not one but TWO female pirates aboard his ship. This was highly unusual. What nickname was he better known by?',
         answerList: [
             'Calico Jack',
             "Devil's Advocate",
@@ -221,6 +220,7 @@ var qAKey = [
         explaination: 'Calico Jack was the more commonly used name for John Rackham. He took a brief break from pirating, accepting a pardon in 1719, but resumed pirating in 1720. After this brief period of renewed activity, he was hanged as a pirate in Jamaica later that same year. '
     }
 ]
+
 
 var started = false;
 var timeGivenMS = 240000;//30000;
@@ -236,9 +236,9 @@ var incorrectCount = 0;
 
 $('#results').hide();
 setCSS();
-setTimerText( timeGivenMS / 1000 );
+setTimerText(timeGivenMS / 1000);
 
-function setTimerText(durationSec){
+function setTimerText(durationSec) {
     var minutes = parseInt(durationSec / 60, 10);
     var seconds = parseInt(durationSec % 60, 10);
 
@@ -253,11 +253,11 @@ function setTimerText(durationSec){
     }
 }
 
-function setCSS(){
+function setCSS() {
     var root = document.documentElement;
-    root.style.setProperty('--time', (timeGivenMS /1000) +'s' );
-    root.style.setProperty('--cont-w', $(window).width() -20 +'px' );
-    root.style.setProperty('--cont-h', $(window).height() - 64 +'px' );
+    root.style.setProperty('--time', (timeGivenMS / 1000) + 's');
+    root.style.setProperty('--cont-w', $(window).width() - 20 + 'px');
+    root.style.setProperty('--cont-h', $(window).height() - 64 + 'px');
 }
 function startAnim() {
     //moveBomb
@@ -330,16 +330,16 @@ function randomSort(inputArr) {
     //TODO
     return inputArr;
 }
-function fixGridClasses(displayType){
+function fixGridClasses(displayType) {
     $('.answer-container').removeClass('oneByTwo twoByTwo')
-    if(displayType.length > 0){
+    if (displayType.length > 0) {
         $('.answer-container').addClass(displayType);
     }
 }
 function displayRound() {
     console.log('display round', currRound)
     $('.question').html(randomSorted[currRound].question)
-    
+
     $('.answer-container').empty();
     fixGridClasses(randomSorted[currRound].displayType);
     for (var i = 0; i < randomSorted[currRound].answerList.length; i++) {
@@ -384,13 +384,29 @@ function win() {
     displayResultsKey();
     putOutFire();
 }
-function putOutFire(){
+function putOutFire() {
     document.querySelector('.progress-rope').style.webkitAnimationPlayState = 'paused';
     $('#rope-end').removeClass('lit');
     //document.querySelector('.lit').style.webkitAnimationPlayState = 'paused';
 }
 function loseAnim() {
     console.log('lose')
+}
+function makeAnswerCollapsables() {
+    var coll = document.getElementsByClassName("results-list-item");
+
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active-list-item");
+            var content = this.querySelector('collapsable');
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
 }
 function displayResultsKey() {
     // div class results + win class or lose class
@@ -400,7 +416,7 @@ function displayResultsKey() {
 
     //make list
     $('#results').append(
-        $('<ol>', {class: 'results-list'})
+        $('<ol>', { class: 'results-list' })
     )
     randomSorted.filter(function (qAItem) {
         return qAItem.chosen !== undefined;
@@ -414,28 +430,28 @@ function displayResultsKey() {
             correct = 'incorrect'
             incorrectCount++;
         }
-        var listItem = $('<li>',{class:'results-list-item '+ correct })
+        var listItem = $('<li>', { class: 'results-list-item ' + correct })
             .append($('<p>').html(qAItem.question))
             .append($('<p>').text(qAItem.answerList[qAItem.chosen]))
-            .append($('<p>').html(qAItem.explaination))
-        
-            
-        $('.results-list').append( listItem )
+            .append($('<div>', { class: 'collapsable' }).html(qAItem.explaination))
+
+        $('.results-list').append(listItem)
     })
+    makeAnswerCollapsables();
     $('#results').prepend(
         $('<button>').text("Play Again")
             .on('click', function () {
                 playAgain()
             })
     )
-    if( winLose === "win"){
+    if (winLose === "win") {
         $('#results').prepend($('<h1>').text("WINNER"))
-        $('#results').prepend($('<h3>').text("# Correct: "+ correctCount))
-        $('#results').prepend($('<h3>').text("# Incorrect: "+ incorrectCount))
-    } else if (winLose === 'false'){
+        $('#results').prepend($('<h3>').text("# Correct: " + correctCount))
+        $('#results').prepend($('<h3>').text("# Incorrect: " + incorrectCount))
+    } else if (winLose === 'false') {
         $('#results').prepend($('<h1>').text("LOSER"))
-        $('#results').prepend($('<h3>').text("# Correct: "+ correctCount))
-        $('#results').prepend($('<h3>').text("# Incorrect: "+ incorrectCount))
+        $('#results').prepend($('<h3>').text("# Correct: " + correctCount))
+        $('#results').prepend($('<h3>').text("# Incorrect: " + incorrectCount))
     }
     console.log(randomSorted)
 }
@@ -457,7 +473,7 @@ function playAgain() {
 
 
 
-function lightFire(){
+function lightFire() {
     var rope = document.getElementById('rope-border');
     var ropeEnd = document.getElementById('rope-end');
 
@@ -472,29 +488,29 @@ function lightFire(){
 }
 
 /*
-Start screen with bomb in the middle and title 
+Start screen with bomb in the middle and title
 
-Click starts countdown from 3 
+Click starts countdown from 3
 
-Bomb moves to top left and rope fades in 
+Bomb moves to top left and rope fades in
 
-Red line spins around count down timer  
+Red line spins around count down timer
 
-Then flys to left to ignite fire 
+Then flys to left to ignite fire
 
-Timer counts down inside of bomb 
+Timer counts down inside of bomb
 
-If all questions answered , hide fire and stop rope animation 
+If all questions answered , hide fire and stop rope animation
 
-If out of time, bomb explodes  
+If out of time, bomb explodes
 
-Fire animation expands 
+Fire animation expands
 
-Stops on screen 
+Stops on screen
 
-Red screen for loss  
+Red screen for loss
 
-Bomb fades away on win 
+Bomb fades away on win
 */
 
 
