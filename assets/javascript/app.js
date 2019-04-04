@@ -394,12 +394,12 @@ function loseAnim() {
 }
 function makeAnswerCollapsables() {
     var coll = document.getElementsByClassName("results-list-item");
-
+    console.log(coll)
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function () {
             this.classList.toggle("active-list-item");
-            var content = this.querySelector('collapsable');
-
+            var content = this.querySelector('.collapsable');
+            console.log(content)
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
             } else {
