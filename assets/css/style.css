@@ -317,6 +317,11 @@ main {
     justify-content: center;
     align-items: center;
 }
+@media screen and (max-width: 600px){
+    .question {
+        text-indent: 20%;
+    }
+}
 .answer-container{
     height: 66%;
     display: grid;
