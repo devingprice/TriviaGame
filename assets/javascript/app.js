@@ -230,8 +230,17 @@ var winLose = null;
 var bombTimer = null;
 var displayTimer = null;
 var currRound = 0;
-$('#results').hide();
 
+
+$('#results').hide();
+setCSS();
+
+function setCSS(){
+    var root = document.documentElement;
+    root.style.setProperty('--time', (timeGivenMS /1000) +'s' );
+    root.style.setProperty('--cont-w', $(window).width() -20 +'px' );
+    root.style.setProperty('--cont-h', $(window).height() - 64 +'px' );
+}
 function startAnim() {
     //moveBomb
     //fade in rope
@@ -239,9 +248,7 @@ function startAnim() {
     $('#press').fadeOut(1000);
     //start 3 2 1 countdown
     //after delay move fire from countdown anim to rope start
-    var root = document.documentElement;
-    root.style.setProperty('--time', (timeGivenMS /1000) +'s' );
-    //root.style.setProperty('--mouse-y', e.clientY + "px");
+    setCSS()
 }
 function displayClock() {
     console.log("clock")
@@ -389,14 +396,14 @@ function displayResultsKey() {
             correct = 'incorrect'
         }
         var listItem = $('<li>',{class:'results-list-item '+ correct })
-            .append($('<p>').text(qAItem.question))
+            .append($('<p>').html(qAItem.question))
             .append($('<p>').text(qAItem.answerList[qAItem.chosen]))
-            .append($('<p>').text(qAItem.explaination))
+            .append($('<p>').html(qAItem.explaination))
         
             
         $('.results-list').append( listItem )
     })
-    $('#results').append(
+    $('#results').prepend(
         $('<button>').text("Play Again")
             .on('click', function () {
                 playAgain()
@@ -419,6 +426,7 @@ function playAgain() {
     displayTimer = null;
     currRound = 0;
 }
+
 
 
 function lightFire(){
