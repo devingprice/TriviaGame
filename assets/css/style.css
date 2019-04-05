@@ -76,7 +76,7 @@ body {
                             100% 0,
                             100% 100%,
                             0 100%;
-    animation: appear 2s linear;
+    
 }
 @keyframes bg {
     100% {
@@ -109,6 +109,9 @@ body {
                             100% 12px,
                             12px 50%;
     }
+}
+.appear-rope {
+    animation: appear 2s linear;
 }
 @keyframes appear {
     0% {
@@ -198,6 +201,9 @@ body {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-bottom: 30px solid #FF7722;
+    
+}
+.scale{
     animation: scale 1s infinite;
 }
 #fire-outside:before {
@@ -264,7 +270,23 @@ body {
       transform: scale(1.4);
     }
 }
-
+@keyframes explode {
+    0% {
+      -webkit-transform: scale(1.4);
+      transform: scale(1.4);
+    }
+    40% {
+      -webkit-transform: scale(50);
+      transform: scale(50);
+    }
+    100% {
+      -webkit-transform: scale(100);
+      transform: scale(100);
+    }
+}
+.explode{
+    animation: explode 1s linear;
+}
 
 /*--------------------------------
     Bomb

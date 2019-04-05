@@ -223,8 +223,8 @@ var qAKey = [
 
 
 var started = false;
-var timeGivenMS = 240000;//30000;
-var numRounds = 21;
+var timeGivenMS = 3000;//60000;//240000;
+var numRounds = 10;
 var randomSorted = randomSort(qAKey);
 var winLose = null;
 var bombTimer = null;
@@ -234,43 +234,7 @@ var currRound = 0;
 var correctCount = 0;
 var incorrectCount = 0;
 
-$('#results').hide();
-setCSS();
-setTimerText(timeGivenMS / 1000);
 
-function setTimerText(durationSec) {
-    var minutes = parseInt(durationSec / 60, 10);
-    var seconds = parseInt(durationSec % 60, 10);
-
-    if (--durationSec <= 0) {
-        $('#timer').text("00:00");
-        clearInterval(displayTimer)
-    } else {
-        minutes = addZeroIfSingleDigit(minutes);
-        seconds = addZeroIfSingleDigit(seconds);
-
-        $('#timer').text(minutes + ":" + seconds);
-    }
-}
-
-function setCSS() {
-    var root = document.documentElement;
-    root.style.setProperty('--time', (timeGivenMS / 1000) + 's');
-    var contW = $(window).width() - 20;
-    var contH = $(window).height() - 64;
-    if( contW > 800 ){ contW = 800 }
-    root.style.setProperty('--cont-w', contW + 'px');
-    root.style.setProperty('--cont-h', contH + 'px');
-}
-function startAnim() {
-    //moveBomb
-    //fade in rope
-    //fade out title
-    $('#press').fadeOut(1000);
-    //start 3 2 1 countdown
-    //after delay move fire from countdown anim to rope start
-    setCSS()
-}
 function displayClock() {
     console.log("clock")
     //var display = $('#timer');
@@ -288,7 +252,6 @@ function startTimer(durationSec) {
     var minutes;
     var seconds;
     displayTimer = setInterval(function () {
-        console.log('second')
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -371,7 +334,6 @@ function checkIfCorrect(qAItem) {
     return false;
 }
 function transitionQuestion() {
-    console.log('trans')
     if ((currRound + 1) === numRounds) {
         win();
     } else {
@@ -392,12 +354,9 @@ function putOutFire() {
     $('#rope-end').removeClass('lit');
     //document.querySelector('.lit').style.webkitAnimationPlayState = 'paused';
 }
-function loseAnim() {
-    console.log('lose')
-}
+
 function makeAnswerCollapsables() {
     var coll = document.getElementsByClassName("results-list-item");
-    console.log(coll)
     for (var i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function () {
             this.classList.toggle("active-list-item");
@@ -451,9 +410,9 @@ function displayResultsKey() {
             })
     )
     if (winLose === "win") {
-        $('#results').prepend($('<h1>').text("WINNER"))
-        $('#results').prepend($('<h3>').text("# Correct: " + correctCount))
-        $('#results').prepend($('<h3>').text("# Incorrect: " + incorrectCount))
+        $('#results').prepend($('<h1>', {class:'big-text'}).text("WINNER"))
+        $('#results').prepend($('<h3>', {class:'big-text'}).text("# Correct: " + correctCount))
+        $('#results').prepend($('<h3>', {class:'big-text'}).text("# Incorrect: " + incorrectCount))
     } else if (winLose === 'false') {
         $('#results').prepend($('<h1>').text("LOSER"))
         $('#results').prepend($('<h3>').text("# Correct: " + correctCount))
@@ -479,6 +438,45 @@ function playAgain() {
 
 
 
+
+$('#results').hide();
+setCSS();
+setTimerText(timeGivenMS / 1000);
+
+function setTimerText(durationSec) {
+    var minutes = parseInt(durationSec / 60, 10);
+    var seconds = parseInt(durationSec % 60, 10);
+
+    if (--durationSec <= 0) {
+        $('#timer').text("00:00");
+        clearInterval(displayTimer)
+    } else {
+        minutes = addZeroIfSingleDigit(minutes);
+        seconds = addZeroIfSingleDigit(seconds);
+
+        $('#timer').text(minutes + ":" + seconds);
+    }
+}
+
+function setCSS() {
+    var root = document.documentElement;
+    root.style.setProperty('--time', (timeGivenMS / 1000) + 's');
+    var contW = $(window).width() - 20;
+    var contH = $(window).height() - 64;
+    if( contW > 800 ){ contW = 800 }
+    root.style.setProperty('--cont-w', contW + 'px');
+    root.style.setProperty('--cont-h', contH + 'px');
+}
+function startAnim() {
+    //moveBomb
+    //fade in rope
+    //fade out title
+    $('#press').fadeOut(1000);
+    //start 3 2 1 countdown
+    //after delay move fire from countdown anim to rope start
+    setCSS()
+    ropeAppear();
+}
 function lightFire() {
     var rope = document.getElementById('rope-border');
     var ropeEnd = document.getElementById('rope-end');
@@ -489,34 +487,21 @@ function lightFire() {
     void rope.offsetWidth;
     void ropeEnd.offsetWidth;
 
+    rope.classList.remove("appear-rope");
     rope.classList.add("progress-rope");
+    if(document.querySelector('.progress-rope').style.webkitAnimationPlayState === 'paused'){
+        document.querySelector('.progress-rope').style.webkitAnimationPlayState = 'running'
+    }
     ropeEnd.classList.add("lit");
 }
+function ropeAppear(){
+    var rope = document.getElementById('rope-border');
+    rope.classList.add("appear-rope");
+}
 
-/*
-Start screen with bomb in the middle and title
+function loseAnim() {
+    console.log('lose')
+    
+}
 
-Click starts countdown from 3
-
-Bomb moves to top left and rope fades in
-
-Red line spins around count down timer
-
-Then flys to left to ignite fire
-
-Timer counts down inside of bomb
-
-If all questions answered , hide fire and stop rope animation
-
-If out of time, bomb explodes
-
-Fire animation expands
-
-Stops on screen
-
-Red screen for loss
-
-Bomb fades away on win
-*/
-
-
+ropeAppear();
