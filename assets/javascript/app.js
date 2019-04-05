@@ -256,8 +256,11 @@ function setTimerText(durationSec) {
 function setCSS() {
     var root = document.documentElement;
     root.style.setProperty('--time', (timeGivenMS / 1000) + 's');
-    root.style.setProperty('--cont-w', $(window).width() - 20 + 'px');
-    root.style.setProperty('--cont-h', $(window).height() - 64 + 'px');
+    var contW = $(window).width() - 20;
+    var contH = $(window).height() - 64;
+    if( contW > 800 ){ contW = 800 }
+    root.style.setProperty('--cont-w', contW + 'px');
+    root.style.setProperty('--cont-h', contH + 'px');
 }
 function startAnim() {
     //moveBomb
@@ -344,7 +347,7 @@ function displayRound() {
     fixGridClasses(randomSorted[currRound].displayType);
     for (var i = 0; i < randomSorted[currRound].answerList.length; i++) {
         $('.answer-container').append(
-            $('<div>', { class: 'answer', 'data-index': i }).text(randomSorted[currRound].answerList[i])
+            $('<div>', { class: 'answer small-text', 'data-index': i }).text(randomSorted[currRound].answerList[i])
         )
     }
     $('.answer').on('click', function () {
@@ -416,7 +419,7 @@ function displayResultsKey() {
 
     //make list
     $('#results').append(
-        $('<ol>', { class: 'results-list' })
+        $('<ol>', { class: 'results-list small-text' })
     )
     randomSorted.filter(function (qAItem) {
         return qAItem.chosen !== undefined;
@@ -431,15 +434,18 @@ function displayResultsKey() {
             incorrectCount++;
         }
         var listItem = $('<li>', { class: 'results-list-item ' + correct })
-            .append($('<p>').html(qAItem.question))
-            .append($('<p>').text(qAItem.answerList[qAItem.chosen]))
+            .append(
+                $('<div>').append($('<p>').html(qAItem.question))
+                    .append($('<p>').text("You chose: " +qAItem.answerList[qAItem.chosen]))
+                )
+            
             .append($('<div>', { class: 'collapsable' }).html(qAItem.explaination))
 
         $('.results-list').append(listItem)
     })
     makeAnswerCollapsables();
     $('#results').prepend(
-        $('<button>').text("Play Again")
+        $('<button>', {class:"big-text"}).text("Play Again")
             .on('click', function () {
                 playAgain()
             })
