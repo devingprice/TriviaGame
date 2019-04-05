@@ -223,7 +223,7 @@ var qAKey = [
 
 
 var started = false;
-var timeGivenMS = 3000;//60000;//240000;
+var timeGivenMS = 60000;//240000;
 var numRounds = 10;
 var randomSorted = randomSort(qAKey);
 var winLose = null;
