@@ -18,7 +18,7 @@ var qAKey = [
         answerList: ['The Black Cross', 'The Flying Dutchman', 'The Jolly Roger', 'The Bones of Death'],
         displayType: 'twoByTwo',
         answer: 2,
-        explaination: 'The Jolly Roger usually consists of a skull and two diagonal bones, but some pirate used more elaborate versions including various red flags and versions of the Jolly Roger with up to three skulls.', 
+        explaination: 'The Jolly Roger usually consists of a skull and two diagonal bones, but some pirate used more elaborate versions including various red flags and versions of the Jolly Roger with up to three skulls.',
     },
     {
         question: "Who was this Scotsman, who as a privateer, loaned the runner and tackle from his ship for hoisting the stones that were used in construction of New York's Trinity Church? ",
@@ -225,7 +225,7 @@ var qAKey = [
 var started = false;
 var timeGivenMS = 60000;//240000;
 var numRounds = 10;
-var randomSorted = randomSort(qAKey);
+var randomSorted = randomFilter(qAKey);
 var winLose = null;
 var bombTimer = null;
 var displayTimer = null;
@@ -234,11 +234,14 @@ var currRound = 0;
 var correctCount = 0;
 var incorrectCount = 0;
 
-
-function displayClock() {
-    console.log("clock")
-    //var display = $('#timer');
-    startTimer((timeGivenMS / 1000));
+function randomFilter(inputArr) {
+    var copyInput = inputArr.map(function(item){ return item })
+    var cropped = [];
+    for ( var i = 0; i < numRounds; i++){
+        var randomIndex = Math.floor(Math.random() * (copyInput.length));
+        cropped.push( copyInput.splice(randomIndex,1)[0])
+    }
+    return cropped;
 }
 function addZeroIfSingleDigit(num) {
     if (num < 10) {
@@ -247,40 +250,52 @@ function addZeroIfSingleDigit(num) {
         return num;
     }
 }
-function startTimer(durationSec) {
-    var timer = durationSec;
-    var minutes;
-    var seconds;
-    displayTimer = setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
+function timerText(durationSec) {
+    var minutes = parseInt(durationSec / 60, 10);
+    var seconds = parseInt(durationSec % 60, 10);
+    if (--durationSec <= 0) {
+        return "00:00";
+    } else {
+        minutes = addZeroIfSingleDigit(minutes);
+        seconds = addZeroIfSingleDigit(seconds);
 
-        if (--timer <= 0) {
-            $('#timer').text("00:00");
-            clearInterval(displayTimer)
-        } else {
-            minutes = addZeroIfSingleDigit(minutes);
-            seconds = addZeroIfSingleDigit(seconds);
-
-            $('#timer').text(minutes + ":" + seconds);
-        }
-    }, 1000);
+        return minutes + ":" + seconds;
+    }
 }
+function createDisplayTimer() {
+    var timeLeft = (timeGivenMS / 1000);
+    console.log(timeLeft)
+    displayTimer = setInterval(function () {
+        if (--timeLeft <= 0) {
+            clearInterval(displayTimer)
+        }
+        $('#timer').text(timerText(timeLeft))
+    }, 1000)
+}
+
+
+
+function initialize(){
+    $('#results').hide();
+    setCSSVariables();
+    $('#timer').text(timerText(timeGivenMS / 1000))
+    ropeAppear();
+}
+
+initialize()
 
 document.addEventListener('click', function () {
     if (!started) {
         started = true;
         startAnim();
-        //after delay startQuiz()
         setTimeout(function () {
+            console.log('started quiz');
             lightFire();
             startQuiz();
-            console.log('started quiz');
         }, 1000)
     }
 })
 function startQuiz() {
-    // set timeout to timegivenms
     console.log('startquiz')
     bombTimer = setTimeout(function () {
         loseAnim();
@@ -288,14 +303,10 @@ function startQuiz() {
         displayResultsKey();
     }, timeGivenMS);
     // bomb.start()
-    displayClock();
-    displayRound(currRound)
+    createDisplayTimer();
+    displayRound()
+}
 
-}
-function randomSort(inputArr) {
-    //TODO
-    return inputArr;
-}
 function fixGridClasses(displayType) {
     $('.answer-container').removeClass('oneByTwo twoByTwo')
     if (displayType.length > 0) {
@@ -349,11 +360,6 @@ function win() {
     displayResultsKey();
     putOutFire();
 }
-function putOutFire() {
-    document.querySelector('.progress-rope').style.webkitAnimationPlayState = 'paused';
-    $('#rope-end').removeClass('lit');
-    //document.querySelector('.lit').style.webkitAnimationPlayState = 'paused';
-}
 
 function makeAnswerCollapsables() {
     var coll = document.getElementsByClassName("results-list-item");
@@ -361,7 +367,6 @@ function makeAnswerCollapsables() {
         coll[i].addEventListener("click", function () {
             this.classList.toggle("active-list-item");
             var content = this.querySelector('.collapsable');
-            console.log(content)
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
             } else {
@@ -369,6 +374,18 @@ function makeAnswerCollapsables() {
             }
         });
     }
+}
+function calculateStars(correct, rounds ){
+    var correctPercentage = correct / rounds;
+    var numberStars = Math.floor( correctPercentage * 5);
+    var starsText = '';
+    for(var i =0; i<numberStars;i++){
+        starsText += '★'
+    }
+    for(var i =0; i<(5 - numberStars);i++){
+        starsText += '☆'
+    }
+    return starsText
 }
 function displayResultsKey() {
     // div class results + win class or lose class
@@ -395,86 +412,73 @@ function displayResultsKey() {
         var listItem = $('<li>', { class: 'results-list-item ' + correct })
             .append(
                 $('<div>').append($('<p>').html(qAItem.question))
-                    .append($('<p>').text("You chose: " +qAItem.answerList[qAItem.chosen]))
-                )
-            
+                    .append($('<p>').text("You chose: " + qAItem.answerList[qAItem.chosen]))
+            )
+
             .append($('<div>', { class: 'collapsable' }).html(qAItem.explaination))
 
         $('.results-list').append(listItem)
     })
     makeAnswerCollapsables();
     $('#results').prepend(
-        $('<button>', {class:"big-text"}).text("Play Again")
+        $('<button>', { class: "big-text" }).text("Play Again")
             .on('click', function () {
                 playAgain()
             })
     )
+
     if (winLose === "win") {
-        $('#results').prepend($('<h1>', {class:'big-text'}).text("WINNER"))
-        $('#results').prepend($('<h3>', {class:'big-text'}).text("# Correct: " + correctCount))
-        $('#results').prepend($('<h3>', {class:'big-text'}).text("# Incorrect: " + incorrectCount))
+        $('#results').prepend($('<h1>', { class: 'big-text' }).text("WINNER"))
+        
     } else if (winLose === 'false') {
-        $('#results').prepend($('<h1>').text("LOSER"))
-        $('#results').prepend($('<h3>').text("# Correct: " + correctCount))
-        $('#results').prepend($('<h3>').text("# Incorrect: " + incorrectCount))
+        $('#results').prepend($('<h1>', { class: 'big-text' }).text("LOSER"))
     }
+    $('#results').prepend( $('<h3>', { class: 'big-text' }).text(calculateStars(correctCount,numRounds)) );
+    $('#results').prepend( $('<h3>', { class: 'big-text' }).text("# Correct: " + correctCount) )
+    $('#results').prepend( $('<h3>', { class: 'big-text' }).text("# Incorrect: " + incorrectCount) )
     console.log(randomSorted)
 }
 function playAgain() {
-    $('.answer').show().empty();
+    $('.answer-container').show().empty();
     $('.question').show().empty();
-    $('#timer').fadeOut(0).text("00:05").fadeIn();
-    $('#results').hide().empty();
-
+    $('#timer').fadeOut(0).text(timerText(timeGivenMS / 1000)).fadeIn();
+    $('#results').empty().hide();
     $('#press').fadeIn();
 
+    
+    initialize();
+
     started = false;
-    randomSorted = randomSort(qAKey);
-    winLose = null;
+    randomSorted = randomFilter(qAKey);
+    
+
+    clearInterval(displayTimer)
+    clearTimeout(bombTimer)
     bombTimer = null;
     displayTimer = null;
+    
+    winLose = null;
     currRound = 0;
+    correctCount = 0;
+    incorrectCount = 0;
 }
 
 
 
 
-$('#results').hide();
-setCSS();
-setTimerText(timeGivenMS / 1000);
 
-function setTimerText(durationSec) {
-    var minutes = parseInt(durationSec / 60, 10);
-    var seconds = parseInt(durationSec % 60, 10);
-
-    if (--durationSec <= 0) {
-        $('#timer').text("00:00");
-        clearInterval(displayTimer)
-    } else {
-        minutes = addZeroIfSingleDigit(minutes);
-        seconds = addZeroIfSingleDigit(seconds);
-
-        $('#timer').text(minutes + ":" + seconds);
-    }
-}
-
-function setCSS() {
+function setCSSVariables() {
     var root = document.documentElement;
     root.style.setProperty('--time', (timeGivenMS / 1000) + 's');
     var contW = $(window).width() - 20;
     var contH = $(window).height() - 64;
-    if( contW > 800 ){ contW = 800 }
+    if (contW > 800) { contW = 800 }
     root.style.setProperty('--cont-w', contW + 'px');
     root.style.setProperty('--cont-h', contH + 'px');
 }
 function startAnim() {
-    //moveBomb
-    //fade in rope
-    //fade out title
     $('#press').fadeOut(1000);
-    //start 3 2 1 countdown
-    //after delay move fire from countdown anim to rope start
-    setCSS()
+    setCSSVariables()
     ropeAppear();
 }
 function lightFire() {
@@ -489,19 +493,21 @@ function lightFire() {
 
     rope.classList.remove("appear-rope");
     rope.classList.add("progress-rope");
-    if(document.querySelector('.progress-rope').style.webkitAnimationPlayState === 'paused'){
+    if (document.querySelector('.progress-rope').style.webkitAnimationPlayState === 'paused') {
         document.querySelector('.progress-rope').style.webkitAnimationPlayState = 'running'
     }
     ropeEnd.classList.add("lit");
 }
-function ropeAppear(){
+function putOutFire() {
+    document.querySelector('.progress-rope').style.webkitAnimationPlayState = 'paused';
+    $('#rope-end').removeClass('lit');
+    //document.querySelector('.lit').style.webkitAnimationPlayState = 'paused';
+}
+function ropeAppear() {
     var rope = document.getElementById('rope-border');
     rope.classList.add("appear-rope");
 }
-
 function loseAnim() {
     console.log('lose')
-    
 }
 
-ropeAppear();
