@@ -2,14 +2,6 @@
 @import url("https://fonts.googleapis.com/css?family=Karla");
 
 :root {
-	--bg: #3C465C;
-	--primary: #2980b9;
-	--secondary: #2c3e50;
-	--btn-w: 36em;
-	--btn-h: 18em;
-	--dot-w: calc(var(--btn-w)*.2);
-    --tr-X: calc(var(--btn-w) - var(--dot-w));
-    
 
     --font-color: #fff;
     --cont-w: 400px;
